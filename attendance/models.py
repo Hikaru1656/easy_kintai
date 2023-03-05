@@ -6,8 +6,9 @@ from accounts.models import CustomUser
 class Attend(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True)
-    total_time = models.IntegerField(null=True)
+    total_time = models.IntegerField(null=True, default=0)
     date = models.DateField()
+    salary = models.IntegerField(default=0)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name = "user_attends")
 
     def __str__(self):
@@ -21,6 +22,10 @@ class Attend(models.Model):
         total = end-start
         total = total.seconds//60  #分に変換
         return total
+
+    def get_salary(time, pay_per_hour):
+        salary = int(time * (pay_per_hour/60))
+        return salary
 
 class Event(models.Model):
     start_date = models.DateField()

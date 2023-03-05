@@ -22,6 +22,7 @@ def check(request):
         if 'start' in request.POST:
             #startボタンが押された時の処理
             attend = Attend.objects.create(start_time=ontime, date=ontime, user=user)
+            print('startを通りました')
         if 'end' in request.POST:
             attend_today = Attend.objects.get(user=user, date=ontime, end_time=None)
             attend_today.end_time = ontime
@@ -30,17 +31,25 @@ def check(request):
             end = ontime
             end = end.replace(tzinfo=None)
 
+            #勤務時間の計算処理
             total_time = Attend.get_totaltime(start, end)
             attend_today.total_time = total_time
-            print("--------------------------------")
-            print(total_time)
-            print("--------------------------------")
+
+            #給料の計算処理
+            user_log = CustomUser.objects.get(username=user)
+            pay_per_hour = user_log.pay_per_hour
+            salary = Attend.get_salary(total_time, pay_per_hour)
+            attend_today.salary = salary
+
             attend_today.save()
-            #endボタンが押された時の処理
-            print('end')
     return render(request, 'attendance/check.html')
 
 def payments(request):
+    payments_logs = dict()
+    for user_data in CustomUser.objects.all():
+        payments_logs[user_data.username] = Attend.objects.filter(user=user_data.username)
+
+
     attend_data = Attend.objects.all()
     username = CustomUser.objects.all().values("username")
     params = {

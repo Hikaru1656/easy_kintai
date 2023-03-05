@@ -151,7 +151,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_VARIFICATION = "none"
 
-DEFAULT_FROM_EMAIL = 'shiningolaf@gmail.com' #送信元メールアドレス
-ACCOUNT_EMAIL_VERIFICATION  = "mandatory" # メールアドレス検証を必須化
-ACCOUNT_EMAIL_REQUIRED = True # メールアドレス設定を必須化
-ACCOUNT_EMAIL_SUBJECT_PREFIX = '[SITE] ' #メール件名のプレフィックス
+# DEFAULT_FROM_EMAIL = 'shiningolaf@gmail.com' #送信元メールアドレス
+# # ACCOUNT_EMAIL_VERIFICATION  = "mandatory" # メールアドレス検証を必須化
+# ACCOUNT_EMAIL_REQUIRED = True # メールアドレス設定を必須化
+# ACCOUNT_EMAIL_SUBJECT_PREFIX = '[SITE] ' #メール件名のプレフィックス
