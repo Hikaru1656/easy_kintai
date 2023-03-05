@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends "./base.html" %}
+{% load static %}
+{% block body_block %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css">
+  <body>
+    <h1>schedule</h1>
+    <div id="calendar">
+
+    </div>
+
+    <a href="/owner/attends">attendsへ</a>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+    <script src="{% static 'js/schedule.js' %}"></script>
+  </body>
+{% endblock %}
+</html>

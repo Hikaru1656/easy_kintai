@@ -21,3 +21,8 @@ class Attend(models.Model):
         total = end-start
         total = total.seconds//60  #分に変換
         return total
+
+class Event(models.Model):
+    start_date = models.DateField()
+    end_date = models.DateField()
+    event_name = models.CharField(max_length = 50)

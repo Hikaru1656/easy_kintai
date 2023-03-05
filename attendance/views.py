@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from .models import Attend
+from .models import Attend, Event
 from accounts.models import CustomUser
+import json
+import time
+from django.middleware.csrf import get_token
+from django.template import loader
+from django.http import JsonResponse
 
 # Create your views here.
 def attends(request):
@@ -42,3 +47,58 @@ def payments(request):
     'username':username
     }
     return render(request, 'attendance/payments.html', params)
+
+def add_event(request):
+
+    datas = json.loads(request.body)
+    start_date = datas['start_date']
+    end_date = datas['end_date']
+    event_name = datas['event_name']
+
+    formatted_start_date = time.strftime(
+        "%Y-%m-%d", time.localtime(start_date / 1000))
+    formatted_end_date = time.strftime(
+        "%Y-%m-%d", time.localtime(end_date / 1000))
+
+    event = Event(
+        event_name=str(event_name),
+        start_date=formatted_start_date,
+        end_date=formatted_end_date,
+    )
+    event.save()
+
+
+    return render(request, 'attendance/schedule.html')
+
+def get_event(request):
+    datas = json.loads(request.body)
+
+    start_date = datas['start_date']
+    end_date = datas['end_date']
+
+    formatted_start_date = time.strftime(
+        "%Y-%m-%d", time.localtime(start_date / 1000))
+    formatted_end_date = time.strftime(
+        "%Y-%m-%d", time.localtime(end_date / 1000))
+
+    events = Event.objects.filter(
+        start_date__lt=formatted_end_date, end_date__gt=formatted_start_date
+    )
+
+    list = []
+    for event in events:
+        print(event)
+        print('--------------------------')
+        list.append(
+            {
+                "title": event.event_name,
+                "start": event.start_date,
+                "end": event.end_date,
+            }
+        )
+        return JsonResponse(list, safe=False)
+
+def schedule(request):
+    get_token(request)
+
+    return render(request, 'attendance/schedule.html')

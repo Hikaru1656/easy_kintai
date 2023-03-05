@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
   <head>
@@ -8,9 +9,10 @@
     <h1>Check Page</h1>
     <form action="{% url 'check' %}" method="post">
       {% csrf_token %}
-      <input type="submit" name="start" value="出勤">
-      <input type="submit" name="end" value="退勤">
+      <input type="submit" name="start" value="出勤" id="start" >
+      <input type="submit" name="end" value="退勤" id="end">
     </form>
     <a href="/owner/attends">attends</a>
+    <script src="{% static 'js/check.js' %}"></script>
   </body>
 </html>
