@@ -6,14 +6,21 @@ import time
 from django.middleware.csrf import get_token
 from django.template import loader
 from django.http import JsonResponse
+from datetime import datetime, timedelta
 
 # Create your views here.
 def attends(request):
-    attend_data = Attend.objects.all()
-    params = {
-    'attend_data':attend_data
-    }
-    return render(request, 'attendance/attends.html', params)
+    user = request.user
+    userlog = CustomUser.objects.get(username=user)
+    owner_flag = userlog.owner_flag
+    if not owner_flag:
+        return render(request, 'attendance/check.html')
+    else:
+        attend_data = Attend.objects.all()
+        params = {
+        'attend_data':attend_data
+        }
+        return render(request, 'attendance/attends.html', params)
 
 def check(request):
     if request.method == 'POST':
@@ -28,8 +35,10 @@ def check(request):
             attend_today.end_time = ontime
             start = attend_today.start_time
             start = start.replace(tzinfo=None)
+            start = timedelta(days = start.day, minutes = start.minute, seconds = start.second).seconds - start.second
             end = ontime
             end = end.replace(tzinfo=None)
+            end = timedelta(days = end.day, minutes = end.minute, seconds = end.second).seconds - end.second
 
             #勤務時間の計算処理
             total_time = Attend.get_totaltime(start, end)
@@ -45,17 +54,26 @@ def check(request):
     return render(request, 'attendance/check.html')
 
 def payments(request):
-    payments_logs = dict()
-    for user_data in CustomUser.objects.all():
-        payments_logs[user_data.username] = Attend.objects.filter(user=user_data.username)
-
-
-    attend_data = Attend.objects.all()
-    username = CustomUser.objects.all().values("username")
-    params = {
-    'username':username
-    }
-    return render(request, 'attendance/payments.html', params)
+    user = request.user
+    userlog = CustomUser.objects.get(username=user)
+    owner_flag = userlog.owner_flag
+    if not owner_flag:
+        return render(request, 'attendance/check.html')
+    else:
+        payments_logs = dict()
+        salary_logs = dict()
+        for user_data in CustomUser.objects.all():
+            attends = Attend.objects.filter(user=user_data.id)
+            payments_logs[user_data.username] = attends
+            total_salary = 0
+            for attend in attends:
+                total_salary += attend.salary
+            salary_logs[user_data.username] = total_salary
+        params = {
+        'payments_logs':payments_logs,
+        'salary_logs':salary_logs
+        }
+        return render(request, 'attendance/payments.html', params)
 
 def add_event(request):
 

@@ -20,7 +20,7 @@ class Attend(models.Model):
 
     def get_totaltime(start, end):
         total = end-start
-        total = total.seconds//60  #分に変換
+        total = total//60  #分に変換
         return total
 
     def get_salary(time, pay_per_hour):

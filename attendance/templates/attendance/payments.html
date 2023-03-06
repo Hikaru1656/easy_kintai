@@ -4,24 +4,56 @@
 {% block body_block %}
   <body>
     <h1>Payments page</h1>
-    <table>
-      <tr>
-        <th>USERNAME</th>
-        <th>START TIME</th>
-        <th>END TIME</th>
-        <th>TOTAL</th>
-        <th>USER</th>
-      </tr>
-    {% for item in username %}
-    <tr>
-      <td>{{item.username }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    {% endfor %}
-    </table>
+    <div class="container">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>salary</th>
+          </tr>
+          {% for user, salary in salary_logs.items %}
+          <tr>
+            <td>{{ user }}</td>
+            <td>{{ salary }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <br>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <tr>
+            <th>Username</th>
+            <th>Date</th>
+            <th>Salary</th>
+          </tr>
+        {% for user, logs in payments_logs.items %}
+          <tr>
+            <td>{{ user }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          {% for log in logs %}
+            <tr>
+              <td></td>
+              <td>{{ log.date }}</td>
+              <td>{{ log.salary }}</td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+    </div>
 {% endblock %}
 
     <a href="/owner/attends">attendsへ</a>
