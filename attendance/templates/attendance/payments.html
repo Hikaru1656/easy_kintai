@@ -3,41 +3,50 @@
 {% load static %}
 {% block body_block %}
   <body>
-    <h1>Payments page</h1>
+    <br>
+    <h1>給与</h1>
+    <br>
+    <br>
     <div class="container">
       <div class="table-responsive">
+        <caption>給与確認</caption>
         <table class="table table-striped">
-          <tr>
-            <th>Name</th>
-            <th>salary</th>
-          </tr>
+          <thead>
+            <tr>
+              <th style="width: 66%">名前</th>
+              <th style="width: 33%">総額</th>
+            </tr>
+          </thead>
+          <tbody>
           {% for user, salary in salary_logs.items %}
-          <tr>
-            <td>{{ user }}</td>
-            <td>{{ salary }}</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
+            <tr>
+              <td>{{ user }}</td>
+              <td>{{ salary }}</td>
+            </tr>
           {% endfor %}
+          </tbody>
         </table>
       </div>
       <br>
       <br>
       <div class="table-responsive">
-        <table class="table table-striped">
-          <tr>
-            <th>Username</th>
-            <th>Date</th>
-            <th>Salary</th>
-          </tr>
+        <caption>給与詳細</caption>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 33%">名前</th>
+              <th style="width: 33%">出勤日</th>
+              <th style="width: 33%">給与</th>
+            </tr>
+          </thead>
         {% for user, logs in payments_logs.items %}
+        <tbody>
           <tr>
             <td>{{ user }}</td>
             <td></td>
             <td></td>
           </tr>
+        </tbody>
           {% for log in logs %}
             <tr>
               <td></td>
@@ -45,11 +54,6 @@
               <td>{{ log.salary }}</td>
             </tr>
           {% endfor %}
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
         {% endfor %}
         </table>
       </div>

@@ -129,3 +129,25 @@ def schedule(request):
     get_token(request)
 
     return render(request, 'attendance/schedule.html')
+
+def employees(request):
+    users_logs = CustomUser.objects.all()
+    params = {
+    'users_logs':users_logs,
+    }
+    if request.method == 'POST':
+        name = ""
+        if 'on' in request.POST:
+            name = request.POST.get('on')
+            user_log = CustomUser.objects.get(username=name)
+            user_log.owner_flag = True
+            user_log.save()
+        elif 'off' in request.POST:
+            name = request.POST.get('off')
+            user_log = CustomUser.objects.get(username=name)
+            user_log.owner_flag = False
+            user_log.save()
+        elif 'delete' in request.POST:
+            name = request.POST.get('delete')
+            CustomUser.objects.get(username=name).delete()
+    return render(request, 'attendance/employees.html', params)

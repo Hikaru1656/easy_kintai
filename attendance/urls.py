@@ -25,5 +25,6 @@ urlpatterns = [
     path('owner/schedule/', views.schedule, name='schedule'),
     path("owner/schedule/add/", views.add_event, name="add_event"),
     path("owner/schedule/list/", views.get_event, name="get_event"),
+    path("owner/employees", views.employees, name="employees"),
 
 ]

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "./base.html" %}
+{% load static %}
+{% block body_block %}
+  <body>
+    <br>
+    <h1>従業員管理</h1>
+    <br>
+    <br>
+    <div class="container">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>名前</th>
+              <th>メールアドレス</th>
+              <th>権限</th>
+              <th>アカウント</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user_log in users_logs %}
+            <tr>
+              <td>{{ user_log.username }}</td>
+              <td>{{ user_log.email }}</td>
+              <form class="" action="{% url 'employees' %}" method="post">
+                {% csrf_token %}
+                <td><button class="btn btn-secondary {% if user_log.owner_flag %} btn-success {% endif %}" type="submit" name="on" value="{{ user_log.username }}">on</button>
+                  <button class="btn btn-secondary {% if not user_log.owner_flag %} btn-success {% endif %}" type="submit" name="off" value="{{ user_log.username }}">off</button>
+                </td>
+                <td><button class="btn btn-outline-danger" id="po" type="button" name="delete" value="{{ user_log.username }}" onclick="deleteClick()">削除</button></td>
+              </form>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="{% static 'js/employees.js' %}"></script>
+{% endblock %}
+  </body>
+</html>

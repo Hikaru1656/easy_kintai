@@ -13,6 +13,6 @@ class AuthMiddleware(MiddlewareMixin):
             pass
         elif request.path == '/accounts/confirm-email/' and not request.user.is_authenticated :
             pass
-        elif request.path != '/accounts/login/' and not request.user.is_authenticated :
-            return HttpResponseRedirect('/accounts/login/')
+        # elif request.path != '/accounts/login/' and not request.user.is_authenticated :
+        #     return HttpResponseRedirect('/accounts/login/')
         return response

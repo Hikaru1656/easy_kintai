@@ -3,40 +3,36 @@
 {% load static %}
 
 {% block body_block %}
-<h1>Attends Page</h1>
+<br>
+<h1>勤怠</h1>
+<br>
+<br>
 <div class="container">
   <div class="table-responsive">
     <table class="table table-striped">
-      <tr>
-        <th>日付</th>
-        <th>名前</th>
-        <th>出勤時間</th>
-        <th>退勤時間</th>
-        <th>勤務時間</th>
-      </tr>
-    {% for item in attend_data %}
-    <tr>
-      <td>{{ item.date | date:'Y/m/d' }}</td>
-      <td>{{ item.user }}</td>
-      <td>{{ item.start_time | date:'H:i' }}</td>
-      <td>{{ item.end_time | date:'H:i' }}</td>
-      <td>{{ item.total_time }}</td>
-    </tr>
-    {% endfor %}
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>名前</th>
+          <th>出勤時間</th>
+          <th>退勤時間</th>
+          <th>勤務時間(分)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in attend_data %}
+        <tr>
+          <td>{{ item.date | date:'Y/m/d' }}</td>
+          <td>{{ item.user }}</td>
+          <td>{{ item.start_time | date:'H:i' }}</td>
+          <td>{{ item.end_time | date:'H:i' }}</td>
+          <td>{{ item.total_time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </div>
-
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3 border border-dark">2</div>
-        <div class="col-md-3 border border-dark">2</div>
-        <div class="col-md-3 border border-dark">2</div>
-        <div class="col-md-3 border border-dark">6</div>
-    </div>
-</div>
-<footer>フッターです</footer>
 
 
 <a href="/owner/check">checkへ</a>
