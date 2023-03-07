@@ -1,18 +1,23 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="ja" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Check</title>
-  </head>
-  <body>
+{% extends "./base2.html" %}
+{% load static %}
+{% block body_block %}
     <h1>Check Page</h1>
     <form action="{% url 'check' %}" method="post">
       {% csrf_token %}
-      <input type="submit" name="start" value="出勤" id="start" >
-      <input type="submit" name="end" value="退勤" id="end">
+      {% if start_flag %}
+      <input type="submit" name="start" value="出勤" id="start" onclick="startClick()" >
+      {% else %}
+      <input type="submit" name="start" value="出勤" id="start" disabled>
+      {% endif %}
+      {% if end_flag %}
+      <input type="submit" name="end" value="退勤" id="end" onclick="endClick()">
+      {% else %}
+      <input type="submit" name="end" value="退勤" id="end" disabled>
+      {% endif %}
     </form>
+
     <a href="/owner/attends">attends</a>
     <!-- <script src="{% static 'js/check.js' %}"></script> -->
-  </body>
+{% endblock %}
 </html>

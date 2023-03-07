@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand " href="#">勤怠管理</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+            <ul class="navbar-nav me-auto">
+            </ul>
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/logout/">ログアウト</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<div class="container">
+    {% block body_block %}
+    <!-- この中は継承先で定義 -->
+    {% endblock %}
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

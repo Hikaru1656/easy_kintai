@@ -7,6 +7,7 @@ from django.middleware.csrf import get_token
 from django.template import loader
 from django.http import JsonResponse
 from datetime import datetime, timedelta
+from django.shortcuts import redirect
 
 # Create your views here.
 def attends(request):
@@ -14,7 +15,7 @@ def attends(request):
     userlog = CustomUser.objects.get(username=user)
     owner_flag = userlog.owner_flag
     if not owner_flag:
-        return render(request, 'attendance/check.html')
+        return redirect('check')
     else:
         attend_data = Attend.objects.all()
         params = {
@@ -22,15 +23,44 @@ def attends(request):
         }
         return render(request, 'attendance/attends.html', params)
 
+# def checks(request):
+#     flag=True
+#     if request.method == 'POST':
+#         ontime = Attend.get_ontime()
+#         user = request.user
+#         if 'sample' in request.POST:
+#             if Attend.objects.filter(user=user, end_time != None,).exists():
+#                 print(Attend.objects.filter(user=user, date=ontime))
+#             else:
+#                 print('そのレコードはありませんの')
+#                 flag = False
+#     params = {
+#     'flag':flag,
+#     }
+#     return render(request, 'attendance/check.html', params)
+
 def check(request):
+    start_flag = True
+    end_flag = True
+    ontime = Attend.get_ontime()
+    user = request.user
+    if Attend.objects.filter(user=user, date=ontime).exists():
+        start_flag = False
+        if Attend.objects.get(user=user, date=ontime).end_time != None:
+            end_flag = False
+    print(start_flag)
+    print(end_flag)
+
     if request.method == 'POST':
         ontime = Attend.get_ontime()
         user = request.user
         if 'start' in request.POST:
             #startボタンが押された時の処理
-            attend = Attend.objects.create(start_time=ontime, date=ontime, user=user)
+            Attend.objects.create(start_time=ontime, date=ontime, user=user)
+            start_flag = False
             print('startを通りました')
         if 'end' in request.POST:
+            end_flag = False
             attend_today = Attend.objects.get(user=user, date=ontime, end_time=None)
             attend_today.end_time = ontime
             start = attend_today.start_time
@@ -51,14 +81,18 @@ def check(request):
             attend_today.salary = salary
 
             attend_today.save()
-    return render(request, 'attendance/check.html')
+    params = {
+    'start_flag':start_flag,
+    'end_flag':end_flag,
+    }
+    return render(request, 'attendance/check.html', params)
 
 def payments(request):
     user = request.user
     userlog = CustomUser.objects.get(username=user)
     owner_flag = userlog.owner_flag
     if not owner_flag:
-        return render(request, 'attendance/check.html')
+        return redirect('check')
     else:
         payments_logs = dict()
         salary_logs = dict()
@@ -131,23 +165,29 @@ def schedule(request):
     return render(request, 'attendance/schedule.html')
 
 def employees(request):
-    users_logs = CustomUser.objects.all()
-    params = {
-    'users_logs':users_logs,
-    }
-    if request.method == 'POST':
-        name = ""
-        if 'on' in request.POST:
-            name = request.POST.get('on')
-            user_log = CustomUser.objects.get(username=name)
-            user_log.owner_flag = True
-            user_log.save()
-        elif 'off' in request.POST:
-            name = request.POST.get('off')
-            user_log = CustomUser.objects.get(username=name)
-            user_log.owner_flag = False
-            user_log.save()
-        elif 'delete' in request.POST:
-            name = request.POST.get('delete')
-            CustomUser.objects.get(username=name).delete()
-    return render(request, 'attendance/employees.html', params)
+    user = request.user
+    userlog = CustomUser.objects.get(username=user)
+    owner_flag = userlog.owner_flag
+    if not owner_flag:
+        return redirect('check')
+    else:
+        users_logs = CustomUser.objects.all()
+        params = {
+        'users_logs':users_logs,
+        }
+        if request.method == 'POST':
+            name = ""
+            if 'on' in request.POST:
+                name = request.POST.get('on')
+                user_log = CustomUser.objects.get(username=name)
+                user_log.owner_flag = True
+                user_log.save()
+            elif 'off' in request.POST:
+                name = request.POST.get('off')
+                user_log = CustomUser.objects.get(username=name)
+                user_log.owner_flag = False
+                user_log.save()
+            elif 'delete' in request.POST:
+                name = request.POST.get('delete')
+                CustomUser.objects.get(username=name).delete()
+        return render(request, 'attendance/employees.html', params)
