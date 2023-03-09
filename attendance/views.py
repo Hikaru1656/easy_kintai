@@ -56,13 +56,17 @@ def check(request):
         user = request.user
         if 'start' in request.POST:
             #startボタンが押された時の処理
-            Attend.objects.create(start_time=ontime, date=ontime, user=user)
+            start = ontime
+            start = start.replace(tzinfo=None)
+            Attend.objects.create(start_time=start, date=ontime, user=user)
             start_flag = False
             print('startを通りました')
         if 'end' in request.POST:
             end_flag = False
             attend_today = Attend.objects.get(user=user, date=ontime, end_time=None)
-            attend_today.end_time = ontime
+            end_time = ontime
+            end_time = end_time.replace(tzinfo=None)
+            attend_today.end_time = end_time
             start = attend_today.start_time
             start = start.replace(tzinfo=None)
             start = timedelta(days = start.day, minutes = start.minute, seconds = start.second).seconds - start.second
