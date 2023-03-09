@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "accounts",
     "attendance",
     "crispy_forms",
+    "pytz",
 ]
 
 MIDDLEWARE = [
