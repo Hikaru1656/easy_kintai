@@ -20,7 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ev$n9r)zn%&wu%w5&1yj3yr*fm##p%6-!(fo5o&tvb^bj)7s#@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -120,7 +120,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
+STATIC_ROOT = [
+    BASE_DIR / 'staticfiles',
+]
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "attendance/static",
@@ -154,3 +156,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ACCOUNT_EMAIL_VERIFICATION  = "mandatory" # メールアドレス検証を必須化
 # ACCOUNT_EMAIL_REQUIRED = True # メールアドレス設定を必須化
 # ACCOUNT_EMAIL_SUBJECT_PREFIX = '[SITE] ' #メール件名のプレフィックス
+
+#############   heroku database     ###########################################
+#Heroku database
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600,
+ssl_require=True)
+DATABASES['default'].update(db_from_env)
+try:
+ from .local_settings import *
+except ImportError:
+ pass
+if not DEBUG:
+ SECRET_KEY = "django-insecure-ev$n9r)zn%&wu%w5&1yj3yr*fm##p%6-!(fo5o&tvb^bj)7s#@"
+
+import django_heroku
+django_heroku.settings(locals())
