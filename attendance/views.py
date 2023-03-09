@@ -196,3 +196,7 @@ def employees(request):
                 name = request.POST.get('delete')
                 CustomUser.objects.get(username=name).delete()
         return render(request, 'attendance/employees.html', params)
+
+
+from django.views.decorators.csrf import requires_csrf_token
+from django.http import HttpResponseServerError
