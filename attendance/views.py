@@ -18,8 +18,11 @@ def attends(request):
     if not owner_flag:
         return redirect('check')
     else:
+        attend_data = dict()
+        for data in Attend.objects.all():
+            attend_data[data.user] = data
         params = {
-        'attend_data':Attend.objects.all()
+        'attend_data':attend_data,
         }
         return render(request, 'attendance/attends.html', params)
 
