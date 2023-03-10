@@ -18,9 +18,7 @@ def attends(request):
     if not owner_flag:
         return redirect('check')
     else:
-        attend_data = dict()
-        for data in Attend.objects.all():
-            attend_data[data.user] = data
+        attend_data = Attend.objects.all()
         params = {
         'attend_data':attend_data,
         }
