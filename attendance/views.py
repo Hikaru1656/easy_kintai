@@ -20,7 +20,7 @@ def attends(request):
     else:
         attend_data = Attend.objects.all()
         params = {
-        'attendData':attend_data
+        'attend_data':attend_data
         }
         return render(request, 'attendance/attends.html', params)
 
