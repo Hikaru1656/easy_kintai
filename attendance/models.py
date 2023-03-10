@@ -8,7 +8,7 @@ class Attend(models.Model):
     end_time = models.DateTimeField(null=True)
     total_time = models.IntegerField(null=True, default=0)
     date = models.DateField()
-    salary = models.IntegerField(default=0)
+    salary = models.IntegerField(null=True, default=0)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name = "user_attends")
 
     def __str__(self):
@@ -24,8 +24,8 @@ class Attend(models.Model):
         return total
 
     def get_salary(time, pay_per_hour):
-        salary = int(time * (pay_per_hour/60))
-        return salary
+        sal = int(time * (pay_per_hour/60))
+        return sal
 
 class Event(models.Model):
     start_date = models.DateField()
