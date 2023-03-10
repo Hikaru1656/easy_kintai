@@ -18,9 +18,8 @@ def attends(request):
     if not owner_flag:
         return redirect('check')
     else:
-        attend_data = Attend.objects.all()
         params = {
-        'attend_data':attend_data
+        'attend_data':Attend.objects.all()
         }
         return render(request, 'attendance/attends.html', params)
 
