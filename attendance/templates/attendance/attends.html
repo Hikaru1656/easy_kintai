@@ -17,16 +17,18 @@
           <th>出勤時間</th>
           <th>退勤時間</th>
           <th>勤務時間(分)</th>
+          <th>追加</th>
         </tr>
       </thead>
       <tbody>
-        {% for item in attendData %}
+        {% for item in attend_data %}
         <tr>
           <td>{{ item.date | date:'Y/m/d' }}</td>
           <td>{{ item.user }}</td>
           <td>{{ item.start_time | date:'H:i' }}</td>
           <td>{{ item.end_time | date:'H:i' }}</td>
           <td>{{ item.total_time }}</td>
+          <td>{ item.salary }</td>
         </tr>
         {% endfor %}
       </tbody>
