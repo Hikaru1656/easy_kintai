@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 {% extends "./base2.html" %}
 {% load static %}
+{% block head_block %}
+{% endblock %}
 {% block body_block %}
     <h1>Check Page</h1>
-    <form action="{% url 'check' %}" method="post">
-      {% csrf_token %}
-      {% if start_flag %}
-      <input type="submit" name="start" value="出勤" id="start" onclick="startClick()" >
-      {% else %}
-      <input type="submit" name="start" value="出勤" id="start" disabled>
-      {% endif %}
-      {% if end_flag %}
-      <input type="submit" name="end" value="退勤" id="end" onclick="endClick()">
-      {% else %}
-      <input type="submit" name="end" value="退勤" id="end" disabled>
-      {% endif %}
-    </form>
+    <div class="text-center">
+      <div class="">
+        <form action="{% url 'check' %}" method="post">
+          {% csrf_token %}
+          {% if start_flag %}
+          <input class="btn btn-primary" type="submit" name="start" value="出勤" id="start" onclick="startClick()" >
+          {% else %}
+          <input class="btn btn-primary" type="submit" name="start" value="出勤" id="start" disabled>
+          {% endif %}
+          {% if end_flag %}
+          <input class="btn btn-primary" type="submit" name="end" value="退勤" id="end" onclick="endClick()">
+          {% else %}
+          <input class="btn btn-primary" type="submit" name="end" value="退勤" id="end" disabled>
+          {% endif %}
+        </form>
+      </div>
+    </div>
 
-    <a href="/owner/attends">attends</a>
     <!-- <script src="{% static 'js/check.js' %}"></script> -->
 {% endblock %}
 </html>

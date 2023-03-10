@@ -17,7 +17,6 @@
           <th>出勤時間</th>
           <th>退勤時間</th>
           <th>勤務時間(分)</th>
-          <th>追加</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +27,6 @@
           <td>{{ item.start_time | date:'H:i' }}</td>
           <td>{{ item.end_time | date:'H:i' }}</td>
           <td>{{ item.total_time }}</td>
-          <td>{{ item.salary }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -36,8 +34,6 @@
   </div>
 </div>
 
-
-<a href="/user/check">checkへ</a>
 {% endblock %}
 
 
