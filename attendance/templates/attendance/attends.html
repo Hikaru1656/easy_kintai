@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for item in attend_data %}
+        {% for user, item in attend_data.items %}
         <tr>
           <td>{{ item.date | date:'Y/m/d' }}</td>
           <td>{{ item.user }}</td>
