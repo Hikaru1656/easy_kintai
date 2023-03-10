@@ -102,7 +102,7 @@ def payments(request):
             payments_logs[user_data.username] = attends
             total_salary = 0
             temp = []
-            temp = list(attends.value("salary"))
+            temp = list(attends.values("salary"))
             for attend in temp:
                 total_salary += attend["salary"]
             salary_logs[user_data.username] = total_salary
