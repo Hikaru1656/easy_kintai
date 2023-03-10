@@ -163,7 +163,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #############   heroku database     ###########################################
 #Heroku database
-import django_on_heroku
+
 ALLOWED_HOSTS = ['attendancemanagement.herokuapp.com', '127.0.0.1']
 
 
