@@ -101,7 +101,7 @@ def payments(request):
             attends = Attend.objects.filter(user=user_data.id)
             payments_logs[user_data.username] = attends
             total_salary = 0
-            for attend in attends.values('salary'):
+            for attend in Attend.objects.filter(user=user_data.id).values('salary'):
                 total_salary += attend
             salary_logs[user_data.username] = total_salary
         params = {
