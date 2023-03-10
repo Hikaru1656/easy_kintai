@@ -163,6 +163,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #############   heroku database     ###########################################
 #Heroku database
+import django_on_heroku
+ALLOWED_HOSTS = ['attendancemanagement.herokuapp.com', '127.0.0.1']
+
+
+
 import dj_database_url
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
