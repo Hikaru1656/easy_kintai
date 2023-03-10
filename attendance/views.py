@@ -78,9 +78,8 @@ def check(request):
             #給料の計算処理
             user_log = CustomUser.objects.get(username=user)
             pay_per_hour = user_log.pay_per_hour
-            salary = Attend.get_salary(total_time, pay_per_hour)
-            attend_today.salary = salary
-
+            sal = Attend.get_salary(total_time, pay_per_hour)
+            attend_today.salary = int(sal)
             attend_today.save()
     params = {
     'start_flag':start_flag,
