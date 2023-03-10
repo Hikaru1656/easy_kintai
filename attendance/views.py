@@ -103,6 +103,8 @@ def payments(request):
             total_salary = 0
             temp = []
             temp = list(attends.values())
+            print(temp)
+            print('-----------------------------')
             for attend in temp:
                 total_salary += attend["salary"]
             salary_logs[user_data.username] = total_salary
