@@ -57,17 +57,13 @@ def check(request):
         user = request.user
         if 'start' in request.POST:
             #startボタンが押された時の処理
-            start = ontime
-            start = naive.astimezone(pytz.timezone('Asia/Tokyo'))
-            Attend.objects.create(start_time=start, date=ontime, user=user)
+            Attend.objects.create(start_time=ontime, date=ontime, user=user)
             start_flag = False
             print('startを通りました')
         if 'end' in request.POST:
             end_flag = False
             attend_today = Attend.objects.get(user=user, date=ontime, end_time=None)
-            end_time = ontime
-            end_time = naive.astimezone(pytz.timezone('Asia/Tokyo'))
-            attend_today.end_time = end_time
+            attend_today.end_time = ontime
             start = attend_today.start_time
             start = start.replace(tzinfo=None)
             start = timedelta(days = start.day, minutes = start.minute, seconds = start.second).seconds - start.second
