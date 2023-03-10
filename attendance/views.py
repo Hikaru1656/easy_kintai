@@ -57,7 +57,7 @@ def check(request):
         user = request.user
         if 'start' in request.POST:
             #startボタンが押された時の処理
-            Attend.objects.create(start_time=ontime, date=ontime, user=user, salary=0)
+            Attend.objects.create(start_time=ontime, date=ontime,salary=0, user=user)
             start_flag = False
             print('startを通りました')
         if 'end' in request.POST:
