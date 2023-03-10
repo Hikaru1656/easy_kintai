@@ -101,12 +101,12 @@ def payments(request):
             attends = Attend.objects.filter(user=user_data.id)
             payments_logs[user_data.username] = attends
             total_salary = 0
-            for key, attend in attends.items():
+            for attend in attends :
                 total_salary += attend.salary
             salary_logs[user_data.username] = total_salary
         params = {
         'payments_logs':payments_logs,
-        'salary_logs':salary_logs
+        'salary_logs':salary_logs,
         }
         return render(request, 'attendance/payments.html', params)
 
